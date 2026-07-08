@@ -1,0 +1,85 @@
+{% extends 'blog/index.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %}<title>Review Detail - Coffee Review Hub</title>{% endblock title %}
+{% block navbar_buttons %}
+  {% if user.is_authenticated %}
+    <ul class="navbar-nav">
+      <li><a class="nav-link" href="{% url 'blog_home' %}">Home</a></li>
+      <li><a class="nav-link" href="{% url 'blog_about' %}">About</a></li>
+      <li><a class="nav-link active" href="{% url 'blog_places' %}">Reviews</a></li>
+      <li><a class="nav-link" href="{% url 'profile' user.id %}">Profile</a></li>
+    </ul>
+  {% else %}
+    <ul class="navbar-nav">
+      <li><a class="nav-link active" href="{% url 'blog_about' %}">About</a></li>
+    </ul>
+  {% endif %}
+{% endblock navbar_buttons %}
+
+
+{% block latest_posts %}
+  <!-- Review Detail -->
+  <main class="posts" style="max-width:800px; margin:40px auto;">
+  {% block alert_messages %}
+    {% if messages %}
+    <div class="messages">
+      {% for message in messages %}
+        <div class="message {{ message.tags }}">
+          {{ message }}
+        </div>
+      {% endfor %}
+    </div>
+    {% endif %}
+  {% endblock alert_messages %}
+    <article class="review-detail">
+      <h1 style="color:#b23a48; font-family:'Georgia',serif; text-align:center;">
+        {{ place.name }}
+      </h1>
+
+      <div class="review-image" style="text-align:center; margin:20px 0;">
+        <img src="{{ place.image.url }}" alt="{{ place.name }}" style="max-width:100%; border-radius:12px; box-shadow:4px 4px 0px #d9c2a3;">
+      </div>
+
+      <p style="font-size:1.1rem; line-height:1.6; margin:20px 0;">
+        {{ place.description }}
+      </p>
+
+      <p><strong>Author:</strong> <a href="{% url 'profile' place.user.id %}">{{ place.user.username }}</a></p>
+
+      <div class="review-meta" style="margin:20px 0;">
+        <span><i class="fas fa-heart" style="color:#b23a48;"></i> {{ place.like_set.count }} Likes</span>
+      </div>
+      {% if user == place.user %}
+        <a href="{% url 'blog_update_place' place.id %}" class="btn-primary">Update Place</a>
+        <a href="{% url 'blog_delete_place' place.id %}" class="btn-primary">Delete place</a>
+        <p></p>
+      {% endif %}
+
+      <!-- Comments -->
+      <section class="comments">
+        <h2 style="color:#3b2f2f; font-family:'Georgia',serif;">Comments</h2>
+        {% for comment in place.review_set.all %}
+          <div class="comment-box" style="background:#fff8e7; border:2px solid #d9c2a3; border-radius:8px; padding:10px; margin-bottom:10px;">
+            <p><strong>{{ comment.user.username }}</strong> says:</p>
+            <p>{{ comment.description }}</p>
+          </div>
+        {% empty %}
+          <p>No comments yet. Be the first to comment!</p>
+        {% endfor %}
+      </section>
+
+      <!-- Add Comment Form -->
+      {% if user.is_authenticated %}
+          <form method="post">
+            {% csrf_token %}
+            {{form|crispy}}
+            <p></p>
+            <button type="submit" class="btn-primary">Add Comment</button>
+          </form>
+      {% else %}
+        <p><a href="{% url 'signin' %}">Sign in</a> to leave a comment.</p>
+      {% endif %}
+    </article>
+  </main>
+{% endblock latest_posts %}

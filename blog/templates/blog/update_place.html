@@ -1,0 +1,23 @@
+{% extends 'blog/detail_place.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %}<title>Update Place - Coffee Review Hub</title>{% endblock title %}
+
+{% block latest_posts %}
+<!-- Main Content -->
+<main class="container" style="max-width:700px; margin:60px auto;">
+  <h1 style="text-align:center; color:#b23a48; font-family:'Georgia',serif;">
+    Update Place
+  </h1>
+
+  <form method="post" enctype="multipart/form-data" class="form-box">
+    {% csrf_token %}
+    {{ form|crispy }}
+
+    <div style="text-align:center; margin-top:20px;">
+      <button type="submit" class="btn-primary">Save Changes</button>
+      <a href="{% url 'detail' object.id %}" class="btn-secondary">Cancel</a>
+    </div>
+  </form>
+</main>
+{% endblock latest_posts %}

@@ -1,0 +1,113 @@
+{% extends 'blog/index.html' %}
+
+
+{% block navbar_buttons %}
+  {% if user.is_authenticated %}
+    <ul class="navbar-nav">
+      <li><a class="nav-link" href="{% url 'blog_home' %}">Home</a></li>
+      <li><a class="nav-link" href="{% url 'blog_about' %}">About</a></li>
+      <li><a class="nav-link" href="{% url 'blog_places' %}">Reviews</a></li>
+      <li><a class="nav-link active" href="{% url 'profile' user.id %}">Profile</a></li>
+    </ul>
+  {% else %}
+    <ul class="navbar-nav">
+      <li><a class="nav-link active" href="{% url 'blog_about' %}">About</a></li>
+    </ul>
+  {% endif %}
+{% endblock navbar_buttons %}
+{% block latest_posts %}{% endblock latest_posts%}
+
+{% block profile %}
+  <!-- Profile Content -->
+  <main class="posts">
+    {% block alert_messages %}
+      {% if messages %}
+      <div class="messages">
+        {% for message in messages %}
+          <div class="message {{ message.tags }}">
+            {{ message }}
+          </div>
+        {% endfor %}
+      </div>
+      {% endif %}
+    {% endblock alert_messages %}
+    <div class="profile">
+      {% if other_user %}
+        <img src="{{other_user.profile.image.url}}" alt="User Picture">
+        <h2>{{other_user.username|title}}</h2>
+        <p><strong>Email:</strong> {{other_user.email}}</p>
+        <p><strong>Bio:</strong> {{other_user.profile.bio}}</p>
+      {% else %}
+        <img src="{{user.profile.image.url}}" alt="User Picture">
+        <h2>{{user.username|title}}</h2>
+        <p><strong>Email:</strong> {{user.email}}</p>
+        <p><strong>Bio:</strong> {{user.profile.bio}}</p>
+
+        <div class="actions">
+          <a href="{% url 'update_user' %}"><button class="btn-primary">Update Info</button></a>
+          <a href="{% url 'delete_user' %}"><button class="btn-primary">Delete Account</button></a>
+        </div>
+      {% endif %}
+    </div>
+
+    <!-- Connected Users >
+    <section style="margin-top:30px;">
+      <h2 style="color:#b23a48; font-family:'Georgia',serif;">Connected Users</h2>
+      <div class="connected-users">
+        <div class="connected-user">
+          <img src="img/user2.jpg" alt="User">
+          <p>Alice</p>
+        </div>
+        <div class="connected-user">
+          <img src="img/user3.jpg" alt="User">
+          <p>John</p>
+        </div>
+        <div class="connected-user">
+          <img src="img/user4.jpg" alt="User">
+          <p>Sarah</p>
+        </div>
+        <div class="connected-user">
+          <img src="img/user5.jpg" alt="User">
+          <p>Emma</p>
+        </div>
+      </div>
+    </section-->
+
+    <!-- My Reviews -->
+    <section style="margin-top:30px;">
+      <h2 style="color:#b23a48; font-family:'Georgia',serif;">Places I have Reviewed:</h2>
+        {% for place in page_obj.object_list %}
+        <div class="connected-users">
+          <div class="connected-user">
+            <img src="{{place.image.url}}" alt="Review">
+            <a href="{% url 'detail' place.id %}"><p>{{place.name}}</p></a>
+          </div>
+        </div>
+        {% endfor %}
+
+      <!-- Pagination -->
+      <div class="pagination">
+        {% if page_obj.object_list|length != 0 %}
+          {% if page_obj.has_previous %}
+            <a href="?page=1" class="btn-page">First</a>
+            <a href="?page={{page_obj.previous_page_number}}"class="btn-page">Previous</a>
+          {% endif %}
+
+          {% for num in page_obj.paginator.page_range %}
+            {% if num == page_obj.number %}
+              <span class="btn-page active">{{ num }}</span>
+            {% elif num > page_obj.number|add:"-3" and num < page_obj.number|add:3 %}
+              <a href="?page={{num}}" class="btn-page">{{num}}</a>
+            {% endif %}
+          {% endfor %}
+
+          {% if page_obj.has_next %}
+            <a href="?page={{page_obj.next_page_number}}" class="btn-page">Next</a>
+            <a href="?page={{page_obj.paginator.num_pages}}" class="btn-page">Last</a>
+          {% endif %}
+        {% else %}
+        <p>This person hasn't reviewed any places yet.</p>
+        {% endif %}
+      </div>
+
+{% endblock profile %}

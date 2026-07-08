@@ -1,0 +1,38 @@
+{% extends 'blog/index.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %}<title>Update Info - Coffee Review Hub</title>{% endblock title %}
+
+{% block navbar_buttons %}
+  {% if user.is_authenticated %}
+    <ul class="navbar-nav">
+      <li><a class="nav-link" href="{% url 'blog_home' %}">Home</a></li>
+      <li><a class="nav-link" href="{% url 'blog_about' %}">About</a></li>
+      <li><a class="nav-link" href="{% url 'blog_places' %}">Reviews</a></li>
+      <li><a class="nav-link active" href="{% url 'profile' user.id %}">Profile</a></li>
+    </ul>
+  {% else %}
+    <ul class="navbar-nav">
+      <li><a class="nav-link active" href="{% url 'blog_about' %}">About</a></li>
+    </ul>
+  {% endif %}
+{% endblock navbar_buttons %}
+
+{% block latest_posts %}{% endblock latest_posts %}
+
+{% block form %}
+    <!-- Update Info Form -->
+    <main class="posts">
+      <h1 style="color:#b23a48; font-family:'Georgia',serif;">Update Your Information</h1>
+
+      <section class="update-info">
+        <form method="post" enctype="multipart/form-data">
+          {% csrf_token %}
+          {{u_form|crispy}}
+          {{p_form|crispy}}
+          <p></p>
+          <button type="submit" class="btn-primary">Save Changes</button>
+        </form>
+      </section>
+    </main>
+{% endblock form %}

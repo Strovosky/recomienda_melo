@@ -1,0 +1,32 @@
+{% extends 'blog/index.html' %}
+
+  {% block title %}<title>404 - Page Not Found</title>{% endblock title %}
+  {% block latest_posts %}{% endblock latest_posts %}
+  
+  {% block 404 %}
+  <!-- 404 Content -->
+  <main class="posts" style="max-width:700px; margin:60px auto; text-align:center;">
+    {% block alert_messages %}
+      {% if messages %}
+      <div class="messages">
+        {% for message in messages %}
+          <div class="message {{ message.tags }}">
+            {{ message }}
+          </div>
+        {% endfor %}
+      </div>
+      {% endif %}
+    {% endblock alert_messages %}
+    <section class="error-page">
+      <h1 style="color:#b23a48; font-family:'Georgia',serif; font-size:3rem;">404</h1>
+      <h2 style="color:#3b2f2f; font-family:'Georgia',serif;">Page Not Found</h2>
+      <p style="margin:20px 0; font-size:1.1rem;">
+        Oops! The page you’re looking for doesn’t exist or has been moved.
+      </p>
+      {% if user.is_authenticated %}
+      <a href="{% url 'blog_home' %}" class="btn-primary">Return to Home</a>
+      {% endif %}
+    </section>
+  </main>
+  {% endblock 404 %}
+

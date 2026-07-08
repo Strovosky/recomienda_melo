@@ -1,0 +1,42 @@
+{% extends 'blog/index.html' %}
+
+
+{% block navbar_buttons %}
+  {% if user.is_authenticated %}
+    <ul class="navbar-nav">
+      <li><a class="nav-link" href="{% url 'blog_home' %}">Home</a></li>
+      <li><a class="nav-link active" href="{% url 'blog_about' %}">About</a></li>
+      <li><a class="nav-link" href="{% url 'blog_places' %}">Reviews</a></li>
+      <li><a class="nav-link" href="{% url 'profile' user.id %}">Profile</a></li>
+    </ul>
+  {% else %}
+    <ul class="navbar-nav">
+      <li><a class="nav-link active" href="{% url 'blog_about' %}">About</a></li>
+    </ul>
+  {% endif %}
+{% endblock navbar_buttons %}
+
+{% block about %}
+    <main class="posts">
+      <h1 style="color:#b23a48; font-family:'Georgia',serif;">About Coffee Review Hub</h1>
+      <p>
+        Welcome to <strong>Coffee Review Hub</strong>, your cozy corner for discovering and sharing the best coffee shops in the city. 
+        Inspired by the warmth of retro cafés, our platform lets coffee lovers connect, review, and celebrate the unique spots that make our community special.
+      </p>
+      <p>
+        Here you can:
+      </p>
+      <ul>
+        <li>Browse honest reviews of local coffee shops.</li>
+        <li>Share your own experiences with photos and comments.</li>
+        <li>Connect with fellow coffee enthusiasts.</li>
+        <li>Keep track of your favorite cafés and discover new ones.</li>
+      </ul>
+      <p>
+        Whether you’re searching for a quiet corner to read, a lively café with music, or the perfect espresso bar, 
+        Coffee Review Hub is here to guide you. Grab a cup, settle in, and explore the city’s coffee culture with us.
+      </p>
+    </main>
+{% endblock about %}
+
+{% block latest_posts %}{% endblock latest_posts %}

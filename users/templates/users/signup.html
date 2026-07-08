@@ -1,0 +1,43 @@
+{% extends 'blog/index.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %}<title>Coffee Review Hub: Sign Up</title>{% endblock title %}
+
+
+{% block navbar_buttons %}
+<ul class="navbar-nav">
+  <li><a class="nav-link active" href="{% url 'blog_about' %}">About</a></li>
+</ul>
+{% endblock navbar_buttons %}
+
+{% block search_bar %}{% endblock search_bar %}
+{% block current_user %}{% endblock current_user %}
+{% block category_bar %}{% endblock category_bar %}
+{% block latest_posts %}{% endblock latest_posts %}
+
+{% block sign_buttons %}
+  <!-- Auth buttons -->
+  <div>
+    <a href="{% url 'signin' %}"><button class="btn-primary">Sign In</button></a>
+  </div>
+{% endblock sign_buttons %}
+
+{% block form %}
+  <!-- Sign Up Form -->
+  <main class="posts" style="max-width:700px; margin:40px auto;">
+    <section class="login-form">
+      <h1 style="color:#b23a48; font-family:'Georgia',serif; text-align:center;">Sign Up</h1>
+        <main class="posts" style="max-width:700px; margin:40px auto;">
+      <form method="post">
+        {% csrf_token %}
+        {{form|crispy}}
+        <p></p>
+        <button type="submit" class="btn-primary">Create Account</button>
+      </form>
+
+      <p style="margin-top:20px;">
+        Already have an account? <a href="{% url 'signin' %}">Sign In here</a>
+      </p>
+    </section>
+  </main>
+{% endblock form %}

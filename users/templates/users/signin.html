@@ -1,0 +1,67 @@
+{% extends 'blog/index.html' %}
+{% load crispy_forms_tags %}
+
+  {% block title %}<title>Sign In - Coffee Review Hub</title>{% endblock title %}
+
+  {% block navbar_buttons %}
+  <ul class="navbar-nav">
+    <li><a class="nav-link" href="{% url 'blog_about' %}">About</a></li>
+  </ul>
+  {% endblock navbar_buttons %}
+
+  {% block search_bar %}{% endblock search_bar %}
+  {% block current_user %}{% endblock current_user %}
+  {% block sign_buttons %}
+    <!-- Auth buttons -->
+    <div>
+      <a href="{% url 'register' %}"><button class="btn-primary">Sign Up</button></a>
+    </div>
+  {% endblock sign_buttons %}
+  {% block category_bar %}{% endblock category_bar %}
+  {% block latest_posts %}{% endblock latest_posts %}
+     
+    
+  {% block form %}
+  <!-- Sign In Form -->
+  <main class="posts" style="max-width:700px; margin:40px auto;">  
+    {% block alert_messages %}
+      {% if messages %}
+      <div class="messages">
+        {% for message in messages %}
+          <div class="message {{ message.tags }}">
+            {{ message }}
+          </div>
+        {% endfor %}
+      </div>
+      {% endif %}
+    {% endblock alert_messages %}
+    <section class="login-form">
+      <h1 style="color:#b23a48; font-family:'Georgia',serif; text-align:center;">Sign In</h1>
+      <form method="post">
+        {% csrf_token %}
+        {{form|crispy}}
+
+        <p></p>
+        <button type="submit" class="btn-primary">Login</button>
+      </form>
+
+      <p style="margin-top:20px;">
+        Don’t have an account? <a href="{% url 'register' %}">Sign Up here</a>
+      </p>
+    </section>
+  </main>
+  {% endblock form %}
+
+  <!-- Footer -->
+  <footer class="footer">
+    <p>Website created by Strovosky</p>
+    <div class="social-icons">
+      <a href="#"><i class="fab fa-facebook-f"></i></a>
+      <a href="#"><i class="fab fa-twitter"></i></a>
+      <a href="#"><i class="fab fa-instagram"></i></a>
+      <a href="#"><i class="fab fa-linkedin-in"></i></a>
+    </div>
+  </footer>
+
+</body>
+</html>

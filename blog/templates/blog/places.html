@@ -63,22 +63,60 @@
     {% if is_paginated %}
       <!-- Pagination -->
       <div class="pagination">
-        {% if page_obj.has_previous %}
-          <a href="?page=1" class="btn-page">First</a>
-          <a href="?page={{page_obj.previous_page_number}}"class="btn-page">Previous</a>
-        {% endif %}
-
-        {% for num in page_obj.paginator.page_range %}
-          {% if num == page_obj.number %}
-            <span class="btn-page active">{{ num }}</span>
-          {% elif num > page_obj.number|add:"-3" and num < page_obj.number|add:3 %}
-            <a href="?page={{num}}" class="btn-page">{{num}}</a>
+        {% if request.GET.search_word %}
+          {% if page_obj.has_previous %}
+            <a href="?search_word={{request.GET.search_word}}&page=1" class="btn-page">First</a>
+            <a href="?search_word={{request.GET.search_word}}&page={{page_obj.previous_page_number}}"class="btn-page">Previous</a>
           {% endif %}
-        {% endfor %}
 
-        {% if page_obj.has_next %}
-          <a href="?page={{page_obj.next_page_number}}" class="btn-page">Next</a>
-          <a href="?page={{page_obj.paginator.num_pages}}" class="btn-page">Last</a>
+          {% for num in page_obj.paginator.page_range %}
+            {% if num == page_obj.number %}
+              <span class="btn-page active">{{ num }}</span>
+            {% elif num > page_obj.number|add:"-3" and num < page_obj.number|add:3 %}
+              <a href="?search_word={{request.GET.search_word}}&page={{num}}" class="btn-page">{{num}}</a>
+            {% endif %}
+          {% endfor %}
+
+          {% if page_obj.has_next %}
+            <a href="?search_word={{request.GET.search_word}}&page={{page_obj.next_page_number}}" class="btn-page">Next</a>
+            <a href="?search_word={{request.GET.search_word}}&page={{page_obj.paginator.num_pages}}" class="btn-page">Last</a>
+          {% endif %}
+        {% elif request.GET.category_opt %}
+          {% if page_obj.has_previous %}
+            <a href="?category_opt={{request.GET.category_opt}}&page=1" class="btn-page">First</a>
+            <a href="?category_opt={{request.GET.category_opt}}&page={{page_obj.previous_page_number}}"class="btn-page">Previous</a>
+          {% endif %}
+
+          {% for num in page_obj.paginator.page_range %}
+            {% if num == page_obj.number %}
+              <span class="btn-page active">{{ num }}</span>
+            {% elif num > page_obj.number|add:"-3" and num < page_obj.number|add:3 %}
+              <a href="?category_opt={{request.GET.category_opt}}&page={{num}}" class="btn-page">{{num}}</a>
+            {% endif %}
+          {% endfor %}
+
+          {% if page_obj.has_next %}
+            <a href="?category_opt={{request.GET.category_opt}}&page={{page_obj.next_page_number}}" class="btn-page">Next</a>
+            <a href="?category_opt={{request.GET.category_opt}}&page={{page_obj.paginator.num_pages}}" class="btn-page">Last</a>
+          {% endif %}
+        {% else %}
+          {% if page_obj.has_previous %}
+            <a href="?page=1" class="btn-page">First</a>
+            <a href="?page={{page_obj.previous_page_number}}"class="btn-page">Previous</a>
+          {% endif %}
+
+          {% for num in page_obj.paginator.page_range %}
+            {% if num == page_obj.number %}
+              <span class="btn-page active">{{ num }}</span>
+            {% elif num > page_obj.number|add:"-3" and num < page_obj.number|add:3 %}
+              <a href="?page={{num}}" class="btn-page">{{num}}</a>
+            {% endif %}
+          {% endfor %}
+
+          {% if page_obj.has_next %}
+            <a href="?page={{page_obj.next_page_number}}" class="btn-page">Next</a>
+            <a href="?page={{page_obj.paginator.num_pages}}" class="btn-page">Last</a>
+          {% endif %}
         {% endif %}
       </div>
     {% endif %}

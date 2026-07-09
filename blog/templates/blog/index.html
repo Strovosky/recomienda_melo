@@ -40,7 +40,7 @@
           <!-- Search bar -->
            <form method="get" action="{% url 'blog_places' %}">
             <div class="search-bar">
-              <input name="seach_word" type="text" placeholder="Search posts...">
+              <input name="search_word" type="text" placeholder="Search posts...">
               <button type="submit" class="btn-primary" name="search_btn" value="pressed">Go</button>
             </div>
            </form>
@@ -79,11 +79,13 @@
       {% if user.is_authenticated %}
         <aside class="sidebar">
           <h3>Categories</h3>
-          <ul>
+          <form type="get" action="{% url 'blog_places' %}">
             {% for category in categories %}
-              <li><a href="#">{{category.name|title}}</a></li>
+              <ul class="navbar-nav">
+                <li><input name="category_opt" type="submit" class="nav-link" value="{{category.name|title}}"></li>
+              </ul>
             {% endfor %}
-          </ul>
+          </form>
         </aside>
       {% endif %}
     {% endblock category_bar %}

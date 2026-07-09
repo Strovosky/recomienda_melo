@@ -16,7 +16,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from django.contrib.auth.views import LoginView
+from users.views import CustomLoginView, register
 from users.views import custom_logout, profile, delete_user
 from django.conf import settings
 from django.conf.urls.static import static
@@ -27,7 +27,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path("", include("blog.urls")),
     path("register/", include("users.urls")),
-    path("signin/", LoginView.as_view(template_name="users/signin.html"), name="signin"),
+    #path("register/", register, name="register"),
+    path("signin/", CustomLoginView.as_view(template_name="users/signin.html"), name="signin"),
     path("logout/", custom_logout, name="logout"),
     path("profile/<int:pk>/", profile, name="profile"),
     path("update_user/", update_user, name="update_user"),

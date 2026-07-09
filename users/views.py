@@ -8,8 +8,10 @@ from django.contrib.auth.models import User
 from blog.models import Place
 from blog.models import Category
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from blog.decorators import not_logged_user
+from django.contrib.auth.views import LoginView
 
-
+@not_logged_user
 def register(request):
     if request.method == "POST":
         #form = UserCreationForm(request.POST)
@@ -23,6 +25,15 @@ def register(request):
         form = UserRegistrationForm()
     context = {"form":form}
     return render(request, "users/signup.html", context)
+
+class CustomLoginView(LoginView):
+    """I created this custom login view to add the constraint that only
+    not logged in users can access this view, which doesn't come by default in LoginView"""
+
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+            return redirect("blog_home")
+        return super().dispatch(request, *args, **kwargs)
 
 def custom_logout(request):
     if request.method == "POST":

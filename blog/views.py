@@ -8,6 +8,7 @@ from django.views.generic import ListView, DetailView, CreateView, UpdateView, D
 from .forms import CreatePlace, ReviewForm
 from django.contrib import messages
 from django.urls import reverse_lazy
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 
 
 @login_required
@@ -93,9 +94,12 @@ class PlaceListView(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         qs = super().get_queryset()
-        word = self.request.GET.get("seach_word")
+        word = self.request.GET.get("search_word")
+        category = self.request.GET.get("category_opt")
         if word:
-            qs = qs.filter(name__icontains=word)
+            qs = qs.filter(name__icontains=word)            
+        if category:
+            qs = qs.filter(category__name=category)
         return qs
 
     def get_context_data(self, **kwargs):

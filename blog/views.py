@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404, get_list_or_404
 from django.contrib.auth.models import User
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.views.generic.edit import FormMixin
@@ -181,7 +181,29 @@ class DeletePlaceView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
             return True
         return False
     
+class CreateLikeView(LoginRequiredMixin, CreateView):
+    class Meta:
+        model = Like
+        fields = []
 
+    def form_valid(self, form):
+        if form.is_valid():
+            form.instance.user = self.request.user
+            form.instance.place = Place.objects.get(id=self.request.kwargs["pk"])
+        return super().form_valid(form)
+    
+def create_like_place_view(request, place_pk):
+    """A user can like a place instance only once"""
+    place = get_object_or_404(Place, pk=place_pk)
+    like = Like.objects.filter(user=request.user, place=place)
+
+    if not like.exists():
+        like = Like.objects.create(user=request.user, place=place)
+    
+    referer = request.META.get("HTTP_REFERER")
+    if referer:
+        return redirect(referer)
+    return redirect("blog_home") 
     
 
 

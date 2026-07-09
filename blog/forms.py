@@ -1,5 +1,5 @@
 from django.forms import ModelForm
-from .models import Place, Review
+from .models import Place, Review, Like
 from django.contrib.auth.models import User
 
 
@@ -16,6 +16,7 @@ class ReviewForm(ModelForm):
     class Meta:
         model = Review
         fields = ["description"]
+
 
 
 

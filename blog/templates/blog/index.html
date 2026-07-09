@@ -125,7 +125,7 @@
               <a href="{% url 'detail' place.id %}"><h2>{{place.name}}</h2></a>
               <a href="{% url 'profile' place.user.id %}"><p class="author">{{place.user.username|title}}</p></a>
               <p>{{place.description}}</p>
-              <p class="likes">❤️ {{place.like_set.all | length}} Likes</p>
+              <p class="likes"><a href="{% url 'blog_create_like_place' place.id %}">❤️</a> {{place.like_set.all | length}} Likes</p>
               <div class="comments">
                 {% for review in place.review_set.all %}
                   <div class="comment">{{review.user.username|title}}: {{review.description}}</div>
@@ -142,10 +142,15 @@
   <footer class="footer">
     <p>Website created by Strovosky</p>
     <div class="social-icons">
-      <a href="#"><i class="fab fa-facebook-f"></i></a>
-      <a href="#"><i class="fab fa-twitter"></i></a>
-      <a href="#"><i class="fab fa-instagram"></i></a>
-      <a href="#"><i class="fab fa-linkedin-in"></i></a>
+      <a href="https://www.facebook.com/strovosky/" target="_blank" rel="noopener noreferrer">
+        <i class="fab fa-facebook-f"></i>
+      </a>
+      <a href="https://www.instagram.com/strovosky?igsh=amlnbm41Z3ltdHJ4" target="_blank" rel="noopener noreferrer">
+        <i class="fab fa-instagram"></i>
+      </a>
+      <a href="https://www.linkedin.com/in/strovosky/" target="_blank" rel="noopener noreferrer">
+        <i class="fab fa-linkedin-in"></i>
+      </a>
     </div>
   </footer>
 

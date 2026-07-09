@@ -4,6 +4,7 @@ from .views import (
     about,
     four_o_four,
     places_view,
+    create_like_place_view,
     PlaceDetailView,
     PlaceListView,
     PlaceListViewIndex,
@@ -22,7 +23,8 @@ urlpatterns = [
     path(route="places/", view=PlaceListView.as_view(), name="blog_places"),
     path(route="update_place/<int:pk>/", view=UpdatePlaceView.as_view(), name="blog_update_place"),
     path(route="delete_place/<int:pk>/", view=DeletePlaceView.as_view(), name="blog_delete_place"),
-    path(route="create_place/", view=CreatePlaceView.as_view(), name="blog_create_place")
+    path(route="create_place/", view=CreatePlaceView.as_view(), name="blog_create_place"),
+    path(route="create_like_place/<int:place_pk>/", view=create_like_place_view, name="blog_create_like_place")
 ]
 
 if settings.DEBUG:

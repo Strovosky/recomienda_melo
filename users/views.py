@@ -72,12 +72,12 @@ def update_user(request):
             u_form.save()
             p_form.save()
             messages.success(request, message="La información se actualizo exitosamente! :)")
-            return redirect("profile")
+            return redirect("profile", u_form.instance.id)
         else:
             messages.error(request, message="La información provista no fue adecuada.")
     u_form = UserUpdateForm(instance=request.user)
     p_form = ProfileUpdateForm(instance=request.user.profile)
-    context = {"u_form":u_form, "p_form":p_form}
+    context = {"u_form":u_form, "p_form":p_form, "categories":Category.objects.all()}
     return render(request, "users/update_info.html", context)
 
 @login_required

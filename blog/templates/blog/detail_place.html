@@ -45,12 +45,16 @@
         {{ place.description }}
       </p>
 
-      <p><strong>Author:</strong> <a href="{% url 'profile' place.user.id %}">{{ place.user.username }}</a></p>
+      {% if place.user %}
+        <p><strong>Author:</strong> <a href="{% url 'profile' place.user.id %}">{{ place.user.username }}</a></p>
+      {% else %}
+        <p><strong>Author:</strong> <a href="#">Author Deleted</a></p>
+      {% endif %}
 
       <div class="review-meta" style="margin:20px 0;">
         <span><i class="fas fa-heart" style="color:#b23a48;"></i> {{ place.like_set.count }} Likes</span>
       </div>
-      {% if user == place.user %}
+      {% if place.user and user == place.user %}
         <a href="{% url 'blog_update_place' place.id %}" class="btn-primary">Update Place</a>
         <a href="{% url 'blog_delete_place' place.id %}" class="btn-primary">Delete place</a>
         <p></p>

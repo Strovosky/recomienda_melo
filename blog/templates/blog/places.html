@@ -49,7 +49,11 @@
         <a href="{% url 'detail' place.id %}">
           <h2>{{place.name}}</h2>
         </a>
-        <a href="{% url 'profile' place.user.id %}"><p class="author">{{place.user.username|title}}</p></a>
+        {% if place.user %}
+          <a href="{% url 'profile' place.user.id %}"><p class="author">{{place.user.username|title}}</p></a>
+        {% else %}
+          <p class="author">Author Deleted</p>
+        {% endif %}
         <p>{{place.description}}</p>
         <p class="likes"><a href="{% url 'blog_create_like_place' place.id %}">❤️</a> {{place.like_set.all | length}} Likes</p>
         {% for review in place.review_set.all %}
